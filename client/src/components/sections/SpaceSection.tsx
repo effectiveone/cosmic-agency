@@ -1,3 +1,4 @@
+
 import { useEffect, useRef } from 'react';
 import gsap from 'gsap';
 import RocketSVG from '../RocketSVG';
@@ -9,22 +10,44 @@ export default function SpaceSection() {
 
   useEffect(() => {
     const ctx = gsap.context(() => {
-      // Stars twinkling
-      gsap.to('.star', {
-        opacity: 0.5,
-        duration: 1,
-        stagger: 0.1,
+      // Rocket animation path (zigzag to avoid clouds)
+      gsap.to('.rocket', {
+        motionPath: {
+          path: [
+            {x: 0, y: 0},
+            {x: 200, y: -50},
+            {x: -200, y: -100},
+            {x: 150, y: -150},
+            {x: -150, y: -200},
+            {x: 0, y: -250}
+          ],
+          curviness: 1.5
+        },
+        duration: 10,
         repeat: -1,
         yoyo: true,
+        ease: "power1.inOut"
       });
 
-      // Planet parallax
-      const planets = gsap.utils.toArray('.planet');
-      planets.forEach((planet, i) => {
-        createParallaxEffect(planet as HTMLElement, {
-          x: (i + 1) * 50,
-          rotation: i * 45,
-          duration: 1,
+      // Rotate rocket based on direction
+      gsap.to('.rocket', {
+        rotation: 15,
+        duration: 2,
+        yoyo: true,
+        repeat: -1,
+        ease: "sine.inOut"
+      });
+
+      // Problem clouds subtle movement
+      const clouds = gsap.utils.toArray('.problem-cloud');
+      clouds.forEach((cloud, i) => {
+        gsap.to(cloud, {
+          x: (i % 2 === 0) ? "+=20" : "-=20",
+          y: (i % 3 === 0) ? "+=15" : "-=15",
+          duration: 3 + i,
+          repeat: -1,
+          yoyo: true,
+          ease: "sine.inOut"
         });
       });
     }, sectionRef);
@@ -32,12 +55,48 @@ export default function SpaceSection() {
     return () => ctx.revert();
   }, []);
 
+  const problems = [
+    "Cross-Browser Compatibility",
+    "Mobile Responsiveness",
+    "Page Load Speed",
+    "SEO Optimization",
+    "Accessibility",
+    "Browser Caching",
+    "JavaScript Errors",
+    "Security Vulnerabilities",
+    "CSS Specificity",
+    "Browser Rendering"
+  ];
+
   return (
     <section
       ref={sectionRef}
-      className="relative flex-none w-screen h-screen bg-black"
+      className="relative w-full h-[150vh] bg-gradient-to-b from-blue-900 to-black flex items-center justify-center overflow-hidden"
     >
-      {/* Generate stars */}
+      {/* Problem clouds */}
+      {problems.map((problem, index) => (
+        <div 
+          key={index}
+          className={`problem-cloud absolute px-6 py-4 rounded-[100%] flex items-center justify-center text-center font-semibold shadow-lg`}
+          style={{
+            width: `${Math.max(180, problem.length * 10)}px`,
+            height: `${Math.max(120, problem.length * 5)}px`,
+            backgroundColor: `rgba(255, 255, 255, ${0.6 + Math.random() * 0.3})`,
+            left: `${(index % 3) * 30 + 15}%`,
+            top: `${(index % 4) * 22 + 10}%`,
+            zIndex: 10,
+          }}
+        >
+          <span className="text-blue-900">{problem}</span>
+        </div>
+      ))}
+      
+      {/* Flying rocket */}
+      <div className="rocket absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 z-20">
+        <RocketSVG className="w-40 h-auto" />
+      </div>
+      
+      {/* Background stars */}
       {Array.from({ length: 50 }).map((_, i) => (
         <div
           key={i}
@@ -45,18 +104,10 @@ export default function SpaceSection() {
           style={{
             left: `${Math.random() * 100}%`,
             top: `${Math.random() * 100}%`,
+            opacity: Math.random() * 0.7 + 0.3,
           }}
         />
       ))}
-      
-      {/* Planets */}
-      <div className="planet absolute w-32 h-32 rounded-full bg-orange-500 left-1/4 top-1/4" />
-      <div className="planet absolute w-48 h-48 rounded-full bg-purple-700 right-1/3 top-1/2" />
-      <div className="planet absolute w-24 h-24 rounded-full bg-blue-400 left-1/3 bottom-1/4" />
-      
-      <div className="rocket absolute left-1/2 transform -translate-x-1/2">
-        <RocketSVG className="w-32 h-auto" />
-      </div>
     </section>
   );
 }

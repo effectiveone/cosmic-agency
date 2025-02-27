@@ -48,8 +48,8 @@ export default function Home() {
     <main className="relative w-full overflow-x-hidden overflow-y-auto">
       <div className="flex flex-col">
         <HeroSection />
-        <StratosphereSection />
-        <SpaceSection />
+        <StratosphereSection longerSection={true} biggerClouds={true}/> {/* Added props for modifications */}
+        <SpaceSection avoidClouds={true} /> {/* Added prop for modifications */}
         <UFOSection />
         <DockingSection />
         <CTASection />

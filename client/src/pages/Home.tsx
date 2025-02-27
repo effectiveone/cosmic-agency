@@ -1,3 +1,4 @@
+
 import { useEffect, useRef } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
@@ -19,27 +20,37 @@ export default function Home() {
     // Start ambient space sound
     playAmbient();
 
-    // Set up smooth scrolling
+    // Set up section animations triggered by scrolling
     const sections = gsap.utils.toArray<HTMLElement>('section');
-    gsap.to(sections, {
-      xPercent: -100 * (sections.length - 1),
-      ease: 'none',
-      scrollTrigger: {
-        trigger: containerRef.current,
-        pin: true,
-        scrub: 1,
-        snap: 1 / (sections.length - 1),
-        end: () => `+=${containerRef.current?.offsetWidth || 0}`,
-      },
+    sections.forEach((section, index) => {
+      // Create animations for each section as they come into view
+      gsap.fromTo(
+        section,
+        { 
+          opacity: 0,
+          y: 50 
+        },
+        {
+          opacity: 1,
+          y: 0,
+          duration: 0.8,
+          scrollTrigger: {
+            trigger: section,
+            start: "top bottom-=100",
+            end: "bottom top",
+            toggleActions: "play none none reverse",
+          }
+        }
+      );
     });
   }, []);
 
   return (
     <div 
       ref={containerRef} 
-      className="h-screen overflow-x-hidden bg-background text-foreground"
+      className="bg-background text-foreground"
     >
-      <div className="flex h-screen">
+      <div className="flex flex-col">
         <HeroSection />
         <StratosphereSection />
         <SpaceSection />

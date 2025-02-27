@@ -1,4 +1,8 @@
+
 import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+gsap.registerPlugin(ScrollTrigger);
 
 interface ParallaxOptions {
   x?: number;
@@ -22,6 +26,8 @@ export default function useParallax() {
       ease: 'none',
       scrollTrigger: {
         trigger: element,
+        start: "top bottom",
+        end: "bottom top",
         scrub: true,
       },
     });

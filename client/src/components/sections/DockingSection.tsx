@@ -1,3 +1,4 @@
+
 import { useEffect, useRef } from 'react';
 import gsap from 'gsap';
 import RocketSVG from '../RocketSVG';
@@ -13,8 +14,8 @@ export default function DockingSection() {
       const tl = gsap.timeline({
         scrollTrigger: {
           trigger: sectionRef.current,
-          start: 'top top',
-          end: '+=100%',
+          start: 'top center',
+          end: 'bottom center',
           scrub: true,
           onEnter: () => playDocking(),
         },
@@ -43,7 +44,7 @@ export default function DockingSection() {
   return (
     <section
       ref={sectionRef}
-      className="relative flex-none w-screen h-screen bg-black"
+      className="relative w-full h-screen bg-black flex items-center justify-center"
     >
       <div className="absolute right-1/4 top-1/2 transform -translate-y-1/2">
         <SpaceStationSVG className="w-96 h-auto" />
@@ -52,9 +53,9 @@ export default function DockingSection() {
       <div className="rocket absolute left-1/4 top-1/2 transform -translate-y-1/2">
         <RocketSVG className="w-32 h-auto" />
       </div>
-
-      <div className="success-message absolute top-1/4 left-1/2 transform -translate-x-1/2 opacity-0">
-        <h2 className="text-4xl font-bold text-green-500">Mission Accomplished!</h2>
+      
+      <div className="success-message absolute bottom-1/4 left-1/2 transform -translate-x-1/2 opacity-0 text-white text-2xl font-bold">
+        Docking Successful!
       </div>
     </section>
   );

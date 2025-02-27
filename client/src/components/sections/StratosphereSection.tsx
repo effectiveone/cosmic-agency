@@ -1,3 +1,4 @@
+
 import { useEffect, useRef } from 'react';
 import gsap from 'gsap';
 import RocketSVG from '../RocketSVG';
@@ -13,7 +14,8 @@ export default function StratosphereSection() {
       const clouds = gsap.utils.toArray('.cloud');
       clouds.forEach((cloud, i) => {
         createParallaxEffect(cloud as HTMLElement, {
-          y: (i + 1) * 100,
+          y: (i + 1) * 50,
+          x: (i % 2 === 0) ? 20 : -20,
           duration: 1,
         });
       });
@@ -34,7 +36,7 @@ export default function StratosphereSection() {
   return (
     <section
       ref={sectionRef}
-      className="relative flex-none w-screen h-screen bg-gradient-to-b from-blue-500 to-blue-900"
+      className="relative w-full h-screen bg-gradient-to-b from-blue-500 to-blue-900 flex items-center justify-center"
     >
       <div className="cloud absolute w-32 h-24 bg-white/30 rounded-full left-1/4 top-1/4" />
       <div className="cloud absolute w-48 h-32 bg-white/40 rounded-full right-1/3 top-1/2" />

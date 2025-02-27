@@ -1,4 +1,3 @@
-
 import { useEffect, useRef } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
@@ -46,10 +45,7 @@ export default function Home() {
   }, []);
 
   return (
-    <div 
-      ref={containerRef} 
-      className="bg-background text-foreground"
-    >
+    <main className="relative w-full overflow-x-hidden overflow-y-auto">
       <div className="flex flex-col">
         <HeroSection />
         <StratosphereSection />
@@ -58,6 +54,6 @@ export default function Home() {
         <DockingSection />
         <CTASection />
       </div>
-    </div>
+    </main>
   );
 }

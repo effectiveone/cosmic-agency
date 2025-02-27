@@ -36,11 +36,23 @@ export default function StratosphereSection() {
   return (
     <section
       ref={sectionRef}
-      className="relative w-full h-screen bg-gradient-to-b from-blue-500 to-blue-900 flex items-center justify-center"
+      className="relative w-full h-screen bg-gradient-to-b from-blue-500 to-blue-900 flex items-center justify-center overflow-hidden"
     >
-      <div className="cloud absolute w-32 h-24 bg-white/30 rounded-full left-1/4 top-1/4" />
-      <div className="cloud absolute w-48 h-32 bg-white/40 rounded-full right-1/3 top-1/2" />
-      <div className="cloud absolute w-40 h-28 bg-white/20 rounded-full left-1/3 bottom-1/4" />
+      {/* Large clouds that cover most of the screen */}
+      <div className="cloud absolute w-[120vw] h-64 bg-white/70 rounded-[100%] left-[-10vw] top-[-5vh]" />
+      <div className="cloud absolute w-[140vw] h-72 bg-white/80 rounded-[100%] left-[-20vw] bottom-[-10vh]" />
+      
+      {/* Medium clouds in the middle */}
+      <div className="cloud absolute w-96 h-64 bg-white/60 rounded-full left-[-10%] top-1/3" />
+      <div className="cloud absolute w-96 h-60 bg-white/60 rounded-full right-[-10%] top-1/2" />
+      <div className="cloud absolute w-96 h-56 bg-white/50 rounded-full left-1/4 bottom-1/4" />
+      <div className="cloud absolute w-96 h-48 bg-white/50 rounded-full right-1/4 top-1/4" />
+      
+      {/* Smaller clouds for texture */}
+      <div className="cloud absolute w-48 h-32 bg-white/40 rounded-full left-1/3 top-1/4" />
+      <div className="cloud absolute w-64 h-40 bg-white/40 rounded-full right-1/3 top-1/2" />
+      <div className="cloud absolute w-56 h-36 bg-white/30 rounded-full left-1/2 bottom-1/3" />
+      
       <div className="rocket absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2">
         <RocketSVG className="w-32 h-auto" />
       </div>

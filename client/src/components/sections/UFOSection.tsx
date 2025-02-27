@@ -1,12 +1,15 @@
-import { useEffect, useRef } from 'react';
+
+import { useEffect, useRef, useState } from 'react';
 import gsap from 'gsap';
 import RocketSVG from '../RocketSVG';
 import UFOSVG from '../UFOSVG';
 import useSoundEffects from '@/hooks/useSoundEffects';
+import SolutionsParallax from '../SolutionsParallax';
 
 export default function UFOSection() {
   const sectionRef = useRef<HTMLElement>(null);
   const { playUFO } = useSoundEffects();
+  const [showSolutions, setShowSolutions] = useState(false);
 
   useEffect(() => {
     const ctx = gsap.context(() => {
@@ -27,18 +30,19 @@ export default function UFOSection() {
       })
       .to('.beam', {
         scaleY: 1,
-        opacity: 0.5,
+        opacity: 0.7,
         duration: 1,
       })
       .to('.rocket', {
-        x: 100,
-        y: -50,
+        y: '-=100',
         duration: 1,
+        onComplete: () => setShowSolutions(true)
       })
       .to('.ufo', {
-        x: '-100%',
+        x: '-100%', 
+        y: '-=150',
         duration: 2,
-      });
+      }, "+=1");
     }, sectionRef);
 
     return () => ctx.revert();
@@ -51,12 +55,21 @@ export default function UFOSection() {
     >
       <div className="ufo absolute top-1/4 transform -translate-y-1/2">
         <UFOSVG className="w-48 h-auto" />
-        <div className="beam absolute top-full left-1/2 w-32 h-96 bg-gradient-to-b from-blue-500/50 to-transparent transform -translate-x-1/2 origin-top scale-y-0" />
+        <div className="beam absolute top-full left-1/2 w-32 h-96 bg-gradient-to-b from-green-500/80 to-transparent transform -translate-x-1/2 origin-top scale-y-0 rounded-b-full" />
       </div>
       
       <div className="rocket absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2">
         <RocketSVG className="w-32 h-auto" />
       </div>
+
+      {showSolutions && (
+        <div className="absolute bottom-20 left-1/2 transform -translate-x-1/2 z-30 w-full flex justify-center">
+          <div className="rescue-message text-white text-xl font-bold mb-8 text-center">
+            Spacecraft abducted! Emergency rescue protocols activated
+          </div>
+          <SolutionsParallax />
+        </div>
+      )}
     </section>
   );
 }

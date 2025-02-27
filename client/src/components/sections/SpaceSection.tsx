@@ -1,4 +1,3 @@
-
 import { useEffect, useRef } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
@@ -10,52 +9,52 @@ gsap.registerPlugin(ScrollTrigger);
 
 export default function SpaceSection() {
   const sectionRef = useRef<HTMLElement>(null);
+  const pathRef = useRef<SVGPathElement>(null); // Added ref for the path
   const { createParallaxEffect } = useParallax();
 
   useEffect(() => {
     const ctx = gsap.context(() => {
       // Register ScrollTrigger plugin if it's imported
       if (gsap.ScrollTrigger) gsap.registerPlugin(gsap.ScrollTrigger);
-      
-      // Dynamic slalom rocket animation based on scroll
-      gsap.to('.rocket', {
-        y: 'scroll()',
-        x: (i) => {
-          // More pronounced slalom motion
-          return Math.sin(i * 0.2) * 120; 
-        },
-        rotation: (i) => {
-          // Rotate rocket to follow path direction
-          return Math.sin(i * 0.2) * 25;
-        },
-        scrollTrigger: {
-          trigger: sectionRef.current,
-          start: "top bottom",
-          end: "bottom top",
-          scrub: 1,
-          markers: false
-        },
-        ease: "power1.inOut"
-      });
+
+      // Dynamic slalom rocket animation based on scroll and path
+      if (pathRef.current) {
+        gsap.to('.rocket-space', {
+          motionPath: {
+            path: pathRef.current,
+            autoRotate: true,
+            align: 'center',
+            alignOrigin: [0.5, 0.5] // Center the rocket on the path
+          },
+          scrollTrigger: {
+            trigger: sectionRef.current,
+            start: "top bottom",
+            end: "bottom top",
+            scrub: 1,
+            markers: false
+          },
+          ease: "power1.inOut"
+        });
+      }
 
       // Reduce number of problem clouds to 5 max
       const clouds = gsap.utils.toArray('.problem-cloud');
       const maxClouds = Math.min(clouds.length, 5);
-      
+
       // Position clouds more strategically for slalom
       for (let i = 0; i < maxClouds; i++) {
         const cloud = clouds[i];
         if (!cloud) continue;
-        
+
         // Alternating left and right
         const xPos = i % 2 === 0 ? -150 : 150;
         const yOffset = (i * 20) + "%";
-        
+
         gsap.set(cloud, {
           x: xPos,
           top: yOffset
         });
-        
+
         // Subtle movement
         gsap.to(cloud, {
           x: xPos + (i % 2 === 0 ? 30 : -30),
@@ -104,12 +103,25 @@ export default function SpaceSection() {
           <span className="text-blue-900">{problem}</span>
         </div>
       ))}
-      
+
+      {/* SVG Path for rocket animation */}
+      <svg className="absolute inset-0 w-full h-full" style={{ pointerEvents: 'none' }}>
+        <path
+          ref={pathRef}
+          d="M50,0 C150,150 -50,300 150,450 C-50,600 150,750 50,900"
+          fill="none"
+          stroke="red"
+          strokeWidth="3"
+          strokeDasharray="5,5"
+          className="path-guide"
+        />
+      </svg>
+
       {/* Flying rocket */}
-      <div className="rocket absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 z-20">
+      <div className="rocket-space absolute left-1/2 top-0 transform -translate-x-1/2 z-20"> {/* Adjusted positioning */}
         <RocketSVG className="w-40 h-auto" />
       </div>
-      
+
       {/* Background stars */}
       {Array.from({ length: 50 }).map((_, i) => (
         <div

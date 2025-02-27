@@ -2,14 +2,16 @@
 import { useEffect, useRef } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { MotionPathPlugin } from 'gsap/MotionPathPlugin';
 import RocketSVG from '../RocketSVG';
 import useParallax from '@/hooks/useParallax';
 
 // Register plugins
-gsap.registerPlugin(ScrollTrigger);
+gsap.registerPlugin(ScrollTrigger, MotionPathPlugin);
 
 export default function StratosphereSection({ longerSection = false, biggerClouds = false }) {
   const sectionRef = useRef<HTMLElement>(null);
+  const pathRef = useRef<SVGPathElement>(null);
   const { createParallaxEffect } = useParallax();
 
   useEffect(() => {
@@ -24,20 +26,32 @@ export default function StratosphereSection({ longerSection = false, biggerCloud
         });
       });
 
-      // Dynamic rocket animation - slalom between clouds based on scroll
-      gsap.to('.rocket', {
-        y: 'scroll()',
-        x: () => {
-          return Math.sin(window.scrollY * 0.003) * 50; // Sine wave motion creating slalom
-        },
-        ease: "none",
-        scrollTrigger: {
-          trigger: sectionRef.current,
-          start: "top bottom",
-          end: "bottom top",
-          scrub: 0.5,
-        }
+      // Set the rocket at the top of the screen initially
+      gsap.set('.rocket', {
+        top: 0,
+        left: '50%',
+        xPercent: -50,
+        yPercent: -50
       });
+
+      // Dynamic rocket animation - follow the SVG path
+      if (pathRef.current) {
+        gsap.to('.rocket', {
+          motionPath: {
+            path: pathRef.current,
+            align: pathRef.current,
+            alignOrigin: [0.5, 0.5],
+            autoRotate: true,
+          },
+          ease: "none",
+          scrollTrigger: {
+            trigger: sectionRef.current,
+            start: "top top",
+            end: "bottom bottom",
+            scrub: 1,
+          }
+        });
+      }
     }, sectionRef);
 
     return () => ctx.revert();
@@ -66,8 +80,20 @@ export default function StratosphereSection({ longerSection = false, biggerCloud
       <div className="cloud absolute w-[60vw] h-[18vh] bg-white/55 rounded-full right-[25vw] top-[75vh]" />
       <div className="cloud absolute w-[45vw] h-[12vh] bg-white/50 rounded-full left-[30vw] bottom-[45vh]" />
       
-      <div className="rocket absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2">
-        <RocketSVG className="w-48 h-auto" />
+      <svg className="absolute inset-0 w-full h-full" style={{ pointerEvents: 'none' }}>
+        <path
+          ref={pathRef}
+          d="M50,0 C150,150 -50,300 150,450 C-50,600 150,750 50,900"
+          fill="none"
+          stroke="red"
+          strokeWidth="3"
+          strokeDasharray="5,5"
+          className="path-guide"
+        />
+      </svg>
+      
+      <div className="rocket absolute" style={{ zIndex: 10 }}>
+        <RocketSVG className="w-48 h-auto" style={{ transform: 'rotate(90deg)' }} />
       </div>
     </section>
   );

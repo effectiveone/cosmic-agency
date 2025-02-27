@@ -5,6 +5,7 @@ import RocketSVG from '../RocketSVG';
 import UFOSVG from '../UFOSVG';
 import useSoundEffects from '@/hooks/useSoundEffects';
 import SolutionsParallax from '../SolutionsParallax';
+import { ParallaxProvider } from 'react-scroll-parallax';
 
 export default function UFOSection() {
   const sectionRef = useRef<HTMLElement>(null);

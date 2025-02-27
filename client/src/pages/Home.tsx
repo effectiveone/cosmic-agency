@@ -49,7 +49,7 @@ export default function Home() {
       <div className="flex flex-col">
         <HeroSection />
         {/* <StratosphereSection longerSection={true} biggerClouds={true}/> */}
-        <SpaceSection avoidClouds={true} /> {/* Added prop for modifications */}
+        <SpaceSection /> {/* Simplified props */}
         <UFOSection />
         <DockingSection />
         <CTASection />

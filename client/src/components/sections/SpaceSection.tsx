@@ -108,7 +108,7 @@ export default function SpaceSection() {
       <svg className="absolute inset-0 w-full h-full" style={{ pointerEvents: 'none' }}>
         <path
           ref={pathRef}
-          d="M50,0 C150,150 -50,300 150,450 C-50,600 150,750 50,900"
+          d="M0,50 C150,150 300,150 450,50 C600, -50 750, 150 900, 50"
           fill="none"
           stroke="red"
           strokeWidth="3"
@@ -118,7 +118,7 @@ export default function SpaceSection() {
       </svg>
 
       {/* Flying rocket */}
-      <div className="rocket-space absolute left-1/2 top-0 transform -translate-x-1/2 z-20"> {/* Adjusted positioning */}
+      <div className="rocket-space absolute left-[50px] top-[100px] z-50"> 
         <RocketSVG className="w-40 h-auto" />
       </div>
 

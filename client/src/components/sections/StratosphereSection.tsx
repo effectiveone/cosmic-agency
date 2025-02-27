@@ -1,32 +1,42 @@
 
 import { useEffect, useRef } from 'react';
 import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import RocketSVG from '../RocketSVG';
 import useParallax from '@/hooks/useParallax';
 
-export default function StratosphereSection() {
+// Register plugins
+gsap.registerPlugin(ScrollTrigger);
+
+export default function StratosphereSection({ longerSection = false, biggerClouds = false }) {
   const sectionRef = useRef<HTMLElement>(null);
   const { createParallaxEffect } = useParallax();
 
   useEffect(() => {
     const ctx = gsap.context(() => {
-      // Cloud parallax effect
+      // Cloud parallax effect (reduced number of clouds)
       const clouds = gsap.utils.toArray('.cloud');
       clouds.forEach((cloud, i) => {
         createParallaxEffect(cloud as HTMLElement, {
-          y: (i + 1) * 50,
-          x: (i % 2 === 0) ? 20 : -20,
+          y: (i + 1) * 70, // Increased vertical spacing
+          x: (i % 2 === 0) ? 30 : -30, // Increased horizontal movement
           duration: 1,
         });
       });
 
-      // Rocket shake animation
+      // Dynamic rocket animation - slalom between clouds based on scroll
       gsap.to('.rocket', {
-        x: 2,
-        y: 2,
-        duration: 0.1,
-        repeat: -1,
-        yoyo: true,
+        y: 'scroll()',
+        x: () => {
+          return Math.sin(window.scrollY * 0.003) * 50; // Sine wave motion creating slalom
+        },
+        ease: "none",
+        scrollTrigger: {
+          trigger: sectionRef.current,
+          start: "top bottom",
+          end: "bottom top",
+          scrub: 0.5,
+        }
       });
     }, sectionRef);
 

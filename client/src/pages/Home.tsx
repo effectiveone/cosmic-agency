@@ -8,6 +8,7 @@ import UFOSection from "@/components/sections/UFOSection";
 import DockingSection from "@/components/sections/DockingSection";
 import CTASection from "@/components/sections/CTASection";
 import useSoundEffects from "@/hooks/useSoundEffects";
+import CloudsSection from "@/components/sections/CloudsSection"; // Import added here
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -48,6 +49,7 @@ export default function Home() {
     <main className="relative w-full overflow-x-hidden overflow-y-auto">
       <div className="flex flex-col">
         <HeroSection />
+        <CloudsSection /> {/* CloudsSection added here */}
         {/* <StratosphereSection longerSection={true} biggerClouds={true}/> */}
         <SpaceSection /> {/* Simplified props */}
         <UFOSection />

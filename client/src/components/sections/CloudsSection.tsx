@@ -61,13 +61,23 @@ export default function CloudsSection() {
   return (
     <section
       ref={sectionRef}
-      className="relative w-full h-[130vh] bg-gradient-to-b from-blue-500 to-blue-900 flex-none overflow-hidden"
+      className="relative w-full h-[130vh] bg-gradient-to-b from-blue-400 via-blue-500 to-blue-900 flex-none overflow-hidden"
     >
-      {generateClouds(25)}
+      {/* Earth-like ground at the top */}
+      <div className="absolute top-0 left-0 w-full h-[10vh] bg-gradient-to-b from-green-700 to-blue-300 z-10" />
       
-      {/* Larger foreground clouds for more depth */}
-      <div className="cloud absolute w-[80vw] h-[25vh] bg-white/75 rounded-[100%] left-[10vw] top-[20vh] z-20" />
-      <div className="cloud absolute w-[70vw] h-[20vh] bg-white/80 rounded-[100%] right-[5vw] top-[50vh] z-20" />
+      {/* Dense cloud layer near the top to create takeoff effect */}
+      <div className="absolute top-[5vh] left-0 w-full h-[30vh] z-15">
+        <div className="cloud absolute w-[95vw] h-[20vh] bg-white/90 rounded-[100%] left-[2.5vw] top-[2vh] z-20" />
+        <div className="cloud absolute w-[85vw] h-[15vh] bg-white/85 rounded-[100%] left-[7.5vw] top-[10vh] z-19" />
+        <div className="cloud absolute w-[90vw] h-[18vh] bg-white/80 rounded-[100%] left-[5vw] top-[15vh] z-18" />
+      </div>
+      
+      {generateClouds(35)} {/* Increased cloud count */}
+      
+      {/* Larger, more scattered foreground clouds for depth */}
+      <div className="cloud absolute w-[80vw] h-[25vh] bg-white/75 rounded-[100%] left-[10vw] top-[40vh] z-20" />
+      <div className="cloud absolute w-[70vw] h-[20vh] bg-white/80 rounded-[100%] right-[5vw] top-[60vh] z-20" />
       <div className="cloud absolute w-[85vw] h-[30vh] bg-white/70 rounded-[100%] left-[5vw] bottom-[15vh] z-20" />
     </section>
   );

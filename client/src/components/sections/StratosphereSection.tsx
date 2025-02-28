@@ -60,7 +60,6 @@ export default function StratosphereSection({
         <RocketSVG
           className="w-48 h-auto"
           style={{ transform: "rotate(0deg)" }}
-          isFlipped
         />
       </div>
     </section>

@@ -14,8 +14,8 @@ export default function UFOSection() {
       const tl = gsap.timeline({
         scrollTrigger: {
           trigger: sectionRef.current,
-          start: "top top",
-          end: "+=100%",
+          start: "top bottom", // Rozpocznij animację, gdy górna krawędź sekcji dotrze do dolnej krawędzi ekranu
+          end: "bottom top",   // Zakończ animację, gdy dolna krawędź sekcji dotrze do górnej krawędzi ekranu
           scrub: true,
           onEnter: () => playUFO(),
         },
@@ -23,8 +23,8 @@ export default function UFOSection() {
 
       tl.fromTo(
         ".ufo",
-        { x: "-10%" }, // Startujemy trochę poza ekranem po lewej
-        { x: "110%", duration: 3 }, // Płynny ruch do środka ekranu
+        { x: "120%" }, // Startujemy poza ekranem po prawej stronie
+        { x: "50%", duration: 2 }, // Płynny ruch do środka ekranu
       )
         .to(".beam", {
           scaleY: 1,

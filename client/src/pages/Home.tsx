@@ -9,6 +9,7 @@ import DockingSection from "@/components/sections/DockingSection";
 import CTASection from "@/components/sections/CTASection";
 import useSoundEffects from "@/hooks/useSoundEffects";
 import CloudsSection from "@/components/sections/CloudsSection"; // Import added here
+import SolutionsParallax from "@/components/SolutionsParallax";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -53,6 +54,7 @@ export default function Home() {
         {/* <StratosphereSection longerSection={true} biggerClouds={true}/> */}
         <SpaceSection /> {/* Simplified props */}
         <UFOSection />
+        <SolutionsParallax />
         <DockingSection />
         <CTASection />
       </div>

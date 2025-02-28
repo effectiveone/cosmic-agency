@@ -21,30 +21,11 @@ export default function UFOSection() {
         },
       });
 
-      // UFO scanning animation - celowanie dokładnie w rakietę
-      tl.from(".ufo", {
-        x: "100%",
-        duration: 2,
-      })
-        .add(() => {
-          // Pobierz pozycję rakiety i UFO
-          const rocketElement = document.querySelector(".rocket");
-          const ufoElement = document.querySelector(".ufo");
-          
-          if (rocketElement && ufoElement) {
-            const rocketRect = rocketElement.getBoundingClientRect();
-            const ufoRect = ufoElement.getBoundingClientRect();
-            
-            // Oblicz przesunięcie potrzebne, aby UFO było nad rakietą
-            const offsetX = (rocketRect.left + rocketRect.width / 2) - (ufoRect.left + ufoRect.width / 2);
-            
-            // Zastosuj przesunięcie do UFO
-            gsap.to(".ufo", {
-              x: `+=${offsetX}`,
-              duration: 1,
-            });
-          }
-        })
+      tl.fromTo(
+        ".ufo",
+        { x: "-10%" }, // Startujemy trochę poza ekranem po lewej
+        { x: "110%", duration: 3 }, // Płynny ruch do środka ekranu
+      )
         .to(".beam", {
           scaleY: 1,
           opacity: 0.7,
@@ -58,9 +39,9 @@ export default function UFOSection() {
         .to(
           ".ufo",
           {
-            x: "-100%",
+            x: "100%", // Odlatuje w prawo
             y: "-=150",
-            duration: 2,
+            duration: 5,
           },
           "+=1",
         );
